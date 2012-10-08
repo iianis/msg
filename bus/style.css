@@ -1,0 +1,52 @@
+body{
+    font: verdana;
+}
+.main{
+
+}
+.leftpanel{
+    border: solid black 1px;
+    float: left;
+    height: 90%;
+    width: 49%;
+}
+.rightpanel{
+    border: solid black 1px;
+    float: left;
+    height: 90%;
+    margin: 0px 0px 0px 5px;
+    overflow-y: auto;
+    width: 49%;
+}
+.actions
+{
+    border: solid black 1px;
+    background-color:#7fffd4;
+    margin: 0px 0px 0px 2px;
+}
+.request{
+    background-color: blue;
+}
+.requesting{
+    background-color:#b8860b;
+}
+.waiting{
+    background-color:#ff1493;
+}
+.received{
+    background-color:#7fff00;
+}
+
+.tableRowHeader{
+    background-color: #516C80;
+    color: white;
+}
+.tableRowHeaderColumn{
+    width: 120px;
+}
+.tableRowEven{
+    background-color: #F4F4FF;
+}
+.tableRowOdd{
+    background-color: #ffffff;
+}

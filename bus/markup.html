@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <title>Messaging</title>
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+        <link type="text/css" rel="stylesheet" href="style.css"/>
+    </head>
+    <body>
+
+        <h1>MESSAGE BUS</h1>
+
+        <div class="main">
+            <div class="leftpanel">
+                <div>
+                    <input id="performer" type="button" value="Get Performers"/>
+                    <div id="performerAction" class="actions">Idle..</div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr class="tableRowHeader">
+                                    <th class="tableRowHeaderColumn">Id</th>
+                                    <th class="tableRowHeaderColumn">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="performerRows"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <input id="facility" type="button" value="Get Facilities"/>
+                    <div id="facilityAction" class="actions">Idle..</div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr class="tableRowHeader">
+                                    <th class="tableRowHeaderColumn">Id</th>
+                                    <th class="tableRowHeaderColumn">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="facilityRows"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <input id="actionClass" type="button" value="Get Action-Classes"/>
+                    <div id="actionClassAction" class="actions">Idle..</div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr class="tableRowHeader">
+                                    <th class="tableRowHeaderColumn">Id</th>
+                                    <th class="tableRowHeaderColumn">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="actionClassRows"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="rightpanel">
+                <div>
+                    <input id="actionAdd" type="button" value="Add Action"/>
+                    <div id="actionAddAction" class="actions">Idle..</div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr class="tableRowHeader">
+                                    <th class="tableRowHeaderColumn">Id</th>
+                                    <th class="tableRowHeaderColumn">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="actionAddRows">
+                                <tr>
+                                    <td><input id="actionId" type="text" value="3"/></td>
+                                    <td><input id="actionName" type="text" value="ACT003"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <input id="action" type="button" value="Get Actions (Dispatch)"/>
+                    <div id="actionAction" class="actions">Idle..</div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr class="tableRowHeader">
+                                    <th class="tableRowHeaderColumn">Id</th>
+                                    <th class="tableRowHeaderColumn">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="actionRows"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <input id="actionRecommendation" type="button" value="Get Actions (Recommendation)"/>
+                    <div id="actionRecommendationAction" class="actions">Idle..</div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr class="tableRowHeader">
+                                    <th class="tableRowHeaderColumn">Id</th>
+                                    <th class="tableRowHeaderColumn">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="actionRecommendationRows"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </body>
+</html>

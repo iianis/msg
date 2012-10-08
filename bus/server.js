@@ -9,20 +9,14 @@
 var http = require("http");
 var path = require("path");
 var fs = require("fs");
-///mongoDb
-var mongodb = require("mongodb");
-var serverOptions = {
-    'auto_reconnect': true,
-    'poolSize': 5
-};
-var dbServer = new mongodb.Server('localhost', 27017, {}); //serverOptions={}..
-console.log("Opening Mongo DB: flow...");
-var dbHandle = new mongodb.Db('flow', dbServer);
-//mongoDb end
+var mongoHandle = require("./mongo").connect();
+var actionAPI = require("./actionapi");
+var myEvents = require("./event");
+
+var test = eval('myEvents.init');
+test();
 
 var requestQueue = [];
-var targets = [];
-
 var contentTypes = {
     '.js' : 'text/javascript',
     '.css':'text/css',
@@ -41,6 +35,7 @@ var server = http.createServer(function(request, response){
 });
 
 server.listen(1337);
+console.log("Web server is ready to listen U @ http://localhost:1337\n");
 
 function get(request, response){
 
@@ -71,75 +66,93 @@ function get(request, response){
 function post(request, response){
     var data = '';
 
-    request.addListener('data', function(chunk) {
+    request.on('data', function(chunk) {
         data += chunk;
     });
-    request.addListener('end', function() {
+    request.on('end', function() {
         try{
             var jData = JSON.parse(data);
-            requestQueue[jData.request] = jData;
-            console.log(requestQueue[jData.request].call.name);
-            targets = requestProcess(requestQueue[jData.request], request, response);
-            //response.writeHead(200, {'content-type': 'text/json' });
-            //response.end(JSON.stringify(targets));
+            requestQueue[jData.requestId] = jData;
+            requestQueue[jData.requestId].request = request;
+            requestQueue[jData.requestId].response = response;
         }
         catch(ex){
             response.writeHead(500, {'content-type': 'text/plain' });
-            response.write('error' + ex);
+            response.write('error: ' + ex);
             response.end();
         }
-    });
+    }); //addListener
 }
 
-console.log("Web server is ready for your requests @ http://localhost:1337\n");
+var interval = setInterval(function(){requestProcess();}, 2000);
 
-function requestProcess(data, request, response){
+function requestProcess(){
+    var key = null;
 
+    for(key in requestQueue){
+        if(requestQueue[key].status == "requesting"){
+            requestQueue[key].status = "requested";
+            console.log('request#' + requestQueue[key].requestId + '  forwarded.');
+            requestForward(requestQueue[key]);
+            break;
+        }
+    }
+}
+
+function requestForward(data){
     var collection = '';
 
-    switch(data.call.name){
-        case 'performerSelect':
-            collection = 'performers';
-            break;
-        case 'facilitySelect':
-            collection = 'facilities';
-            break;
-        case 'actionClassSelect':
-            collection = 'actionClasses';
-            break;
-        default :
-            break;
+    var service = eval('actionAPI.' + data.call.name);
+    if(service){
+        service(mongoHandle, data, function(){
+            callback(data);
+        });
+    }else{
+        state.error('Unable to determine a call handler for "' + state.call.name + '".');
+        callback(data);
     }
+}
 
-    dbHandle.open(function(err, db){
+function requestSubscription(data){
+    console.log('actionAdd: triggered actionAdded event.');
+    var collection = '';
+    data.call.name = "actionAddRecommendation";
+    var service = eval('actionAPI.' + data.call.name);
+    if(service){
+        service(mongoHandle, data, function(){
+            callback(data);
+        });
+    }else{
+        state.error('Unable to determine a call handler for "' + state.call.name + '".');
+        callback(data);
+    }
+}
 
-        var performerSelect = function(err, collection){
-            collection.find().toArray(function(err, results){
-                //console.log('send back call');
-                callback(results);
-            });
+function callback(data){
+    try{
+        //Events...which all systems or sub-systems need this information or already subscribed for..
+        if(data.call.name == 'actionAdd'){
+            requestSubscription(data);
         }
-
-        if(err){
-            throw err;
-        } else {
-            console.log("Mongo DB open.");
-            dbHandle.collection(collection, performerSelect);
-            console.log('done');
+        else{
+            console.log(data.targets);
+            data.status = "received";
+            data.response.writeHead(200, {'content-type': 'text/json' });
+            data.response.end(JSON.stringify(data.targets));
         }
-    });
-
-    function callback(results){
-        try{
-            targets = results;
-
-            response.writeHead(200, {'content-type': 'text/json' });
-            response.end(JSON.stringify(targets));
-        }
-        catch(ex){
-            response.writeHead(500, {'content-type': 'text/plain' });
-            response.write('error' + ex);
-            response.end();
+    }
+    catch(ex){
+        console.log(ex);
+        data.response.writeHead(500, {'content-type': 'text/plain' });
+        data.response.write('error' + ex);
+        data.response.end();
+    }
+    finally{
+        for(key in requestQueue){
+            if(requestQueue[key].status == "requested" && requestQueue[key].requestId == data.requestId){
+                requestQueue.splice(key, 1);
+                break;
+            }
         }
     }
 }

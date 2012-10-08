@@ -10,19 +10,19 @@ var eventEmitter = new events.EventEmitter();
 
 module.exports = myevents = {
 
-    actionAdded: function(data){
+    actionAdd: function(data){
         console.log('actionAdd: triggered actionAdded event.');
     },
 
     init: function(){
         console.log('init event.');
 
-        eventEmitter.on("actionAdded2", function(data){
-            console.log('actionAdd: triggered actionAdded event.');
+        eventEmitter.on("actionAdd", function(data){
+            console.log('actionAdd2: triggered actionAdded event.');
 
         });
 
-        eventEmitter.emit("actionAdded", "New Action:T1008 added.");
+        eventEmitter.emit("actionAdd", "New Action:T1008 added.");
     }
 }
 

@@ -20,7 +20,7 @@ recommend.actionSelect = function(db, data, callback){
 recommend.actionAdd = function(db, data, callback){
     db.collection("actionsRecommendation",  function(err, collection){
         collection.save(data.call.data,function(err, results){
-            data.targets = results;
+            if(results) data.targets = results;
             callback(data);
         });
     });

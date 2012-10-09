@@ -20,7 +20,7 @@ eventEmitter.on("actionAdd", actionAdded);
 
 var requestQueue = [];
 var responseQueue = [];
-var appTimer = 0;
+var appTimer = (new Date()).getTime();
 
 var contentTypes = {
     '.js' : 'text/javascript',
@@ -97,12 +97,14 @@ var reqInterval = setInterval(function(){requestProcess();}, 100);
 var resInterval = setInterval(function(){responseProcess();}, 100);
 var appInterval = setInterval(function(){
     appTimer++;
+    //console.log(appTimer);
     var data = null;
     try{
         for(var key in requestQueue){
+            //console.log('in' + appTimer);
             data = responseQueue[key];
             if(requestQueue[key].status == "requested" && (appTimer - requestQueue[key].receivedAt) > 5){
-                console.log('Queue item#' + requestQueue[key].requestId + ' cleared as it timed-out.');
+                console.log('request#' + requestQueue[key].requestId + ' timed-out, hence cleared from Queue.');
                 data.response.writeHead(401, {'content-type': 'text/plain'});
                 data.response.end('request timed-out.');
                 requestQueue.splice(key, 1);
@@ -123,7 +125,7 @@ function requestProcess(){
     for(var key in requestQueue){
         if(requestQueue[key].status == "requesting"){
             requestQueue[key].status = "requested";
-            console.log('request#' + requestQueue[key].requestId + '  forwarded.');
+            console.log('request#' + requestQueue[key].requestId + '  requested.');
             requestForward(requestQueue[key]);
             break;
         }
@@ -149,6 +151,7 @@ function callback(data){
         //eventEmitter.emit('actionAdd', data.requestId, data.call, data.call.data);
     }
     responseQueue[data.requestId] = data;
+    responseQueue[data.requestId].status = "received";
 }
 
 function responseProcess(){
@@ -158,9 +161,8 @@ function responseProcess(){
     try{
         for(var key in responseQueue){
             data = responseQueue[key];
-            if(data.status == "requested"){
-                console.log('response received for request#' + data.requestId + '.');
-                data.status = "received";
+            if(data.status == "received"){
+                console.log('request#' + data.requestId + ', response received.');
                 data.response.writeHead(200, {'content-type': 'text/json' });
                 data.response.end(JSON.stringify(data.targets));
                 break;
@@ -176,7 +178,7 @@ function responseProcess(){
     }finally{
         for(var key in responseQueue){
             if(responseQueue[key].status == "received"){
-                console.log('Queue item#' + responseQueue[key].requestId + ' cleared.');
+                console.log('request#' + responseQueue[key].requestId + ' Queue cleared.');
                 requestQueue.splice(key, 1);
                 responseQueue.splice(key, 1);
                 break;
@@ -185,26 +187,52 @@ function responseProcess(){
     }
 }
 
+//subscriptions to be considered as per events
+var subscriptions = [
+    {
+        id: 1,
+        name: 'actionAdd',
+        subscriber: [ //module name
+            {id:1, name:'recommendation'}
+        ]
+    },
+    {
+        id: 2,
+        name: 'geographyAdd',
+        subscriber: [ //module name
+            {id:1, name:'callCenter'},
+            {id:2, name:'contactCenter'}
+        ]
+    }
+];
+
 function actionAdded(data){
 //function actionAdded(id, methodName, data){
     console.log('actionAdd: triggered an event.');
-    var collection = '';
-    data.call.name = "recommendation.actionAdd";
-    var service = eval(data.call.name);
-    if(service){
-        service(mongoHandle, data, function(){
-            callback2(data);
-        });
-    }else{
-        state.error('Unable to determine a call handler for "' + state.call.name + '".');
-        callback2(data);
+    var eventName = data.call.name.split('.');
+
+    for(var index in subscriptions){
+        var subscription = subscriptions[index];
+        if(subscription.name == eventName[1]){
+            for(var indexsubscriber in subscription.subscriber){
+                var subscriber = subscription.subscriber[indexsubscriber];
+                data.call.name = subscriber.name + '.' + eventName[1];
+                console.log('request#' + data.requestId + ' subscription ' + subscriber.name + '.' + eventName[1] + ' in process..');
+                var service = eval(data.call.name);
+                if(service){
+                    service(mongoHandle, data, function(){
+                        callback4subscription(data);
+                    });
+                }else{
+                    state.error('Unable to determine a call handler for "' + data.call.name + '".');
+                    callback4subscription(data);
+                }
+            }
+        }
     }
 }
 
-function callback2(data){
+function callback4subscription(data){
     //Events...which all systems or sub-systems need this information or already subscribed for..
-    if(data.call.name == 'action.actionAdd'){
-        eventEmitter.emit('actionAdd', data.requestId, data.call, data.call.data);
-    }
-    responseQueue[data.requestId] = data;
+    console.log('request#' + data.requestId + ' subscription ' + data.call.name + ' executed.');
 }

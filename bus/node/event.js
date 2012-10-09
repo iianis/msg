@@ -49,7 +49,7 @@ eventer.bam();
 subscriptions = {
     id: 1,
     name: 'actionAdd',
-    subscriber: [
+    subscriber: [ //module name
         {id:1, name:'dispatch'},
         {id:2, name:'recommendation'},
         {id:3, name:'callCenter'},

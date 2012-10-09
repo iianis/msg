@@ -106,7 +106,7 @@ function performerCallback(data){
             $('#performerRows').append($(dataRow));
         }
     } else {
-        var dataRow = generateTableRow('', 'Enter name...');
+        var dataRow = generateTableRow(null);
         $('#performerRows').append($(dataRow));
     }
 
@@ -128,7 +128,7 @@ function facilityCallback(data){
             $('#facilityRows').append($(dataRow));
         }
     } else {
-        var dataRow = generateTableRow('', 'Enter name...');
+        var dataRow = generateTableRow(null);
         $('#facilityRows').append($(dataRow));
     }
 
@@ -150,7 +150,7 @@ function actionClassCallback(data){
             $('#actionClassRows').append($(dataRow));
         }
     } else {
-        var dataRow = generateTableRow('', 'Enter name...');
+        var dataRow = generateTableRow(null);
         $('#actionClassRows').append($(dataRow));
     }
 
@@ -179,7 +179,7 @@ function actionCallback(data){
             $('#actionRows').append($(dataRow));
         }
     } else {
-        var dataRow = generateTableRow('', 'Enter name...');
+        var dataRow = generateTableRow(null);
         $('#actionRows').append($(dataRow));
     }
 
@@ -203,7 +203,7 @@ function actionRecommendationCallback(data){
             $('#actionRecommendationRows').append($(dataRow));
         }
     } else {
-        var dataRow = generateTableRow('', 'Enter name...');
+        var dataRow = generateTableRow(null);
         $('#actionRecommendationRows').append($(dataRow));
     }
 
@@ -217,6 +217,10 @@ function actionRecommendationCallback(data){
  * create a new table row
  */
 function generateTableRow(item){
+    if(!item){
+        item = { id: 0, name: 'no returned data'}
+    }
+
     var dataRow = " <tr id='" + item._id + "'>";
     dataRow += "<td>" + item.id + "</td>"
         + "<td>" + item.name + "</td>"

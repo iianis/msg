@@ -5,26 +5,44 @@
  * Time: 2:44 PM
  * To change this template use File | Settings | File Templates.
  */
-var events = require("events");
-var eventEmitter = new events.EventEmitter();
+var events = require('events');
+var util = require('util');
 
-module.exports = myevents = {
-
-    actionAdd: function(data){
-        console.log('actionAdd: triggered actionAdded event.');
-    },
-
-    init: function(){
-        console.log('init event.');
-
-        eventEmitter.on("actionAdd", function(data){
-            console.log('actionAdd2: triggered actionAdded event.');
-
-        });
-
-        eventEmitter.emit("actionAdd", "New Action:T1008 added.");
+// The Thing That Emits Event
+Eventer = function(){
+    events.EventEmitter.call(this);
+    this.kapow = function(){
+        var data = "BATMAN"
+        this.emit('blamo', data);
     }
-}
+
+    this.bam = function(){
+        this.emit("boom");
+    }
+};
+
+util.inherits(Eventer, events.EventEmitter);
+
+// The thing that listens to, and handles, those events
+Listener = function(){
+    this.blamoHandler =  function(data){
+        console.log("** blamo event handled");
+        console.log(data);
+    },
+        this.boomHandler = function(data){
+            console.log("** boom event handled");
+        }
+
+};
+
+// The thing that drives the two.
+var eventer = new Eventer();
+var listener = new Listener(eventer);
+eventer.on('blamo', listener.blamoHandler);
+eventer.on('boom', listener.boomHandler);
+
+eventer.kapow();
+eventer.bam();
 
 //Adapter, Events etc.
 //subscriptions to be considered as per events

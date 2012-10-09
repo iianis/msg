@@ -97,15 +97,26 @@ var reqInterval = setInterval(function(){requestProcess();}, 100);
 var resInterval = setInterval(function(){responseProcess();}, 100);
 var appInterval = setInterval(function(){
     appTimer++;
-    for(var key in requestQueue){
-        if(requestQueue[key].status == "requested" && (appTimer - requestQueue[key].receivedAt) > 5){
-            console.log('Queue item#' + requestQueue[key].requestId + ' cleared as it timed-out.');
-            requestQueue.splice(key, 1);
-            responseQueue.splice(key, 1);
-            break;
+    var data = null;
+    try{
+        for(var key in requestQueue){
+            data = responseQueue[key];
+            if(requestQueue[key].status == "requested" && (appTimer - requestQueue[key].receivedAt) > 5){
+                console.log('Queue item#' + requestQueue[key].requestId + ' cleared as it timed-out.');
+                data.response.writeHead(401, {'content-type': 'text/plain'});
+                data.response.end('request timed-out.');
+                requestQueue.splice(key, 1);
+                responseQueue.splice(key, 1);
+                break;
+            }
+        }
+    }catch(e){
+        if(data){
+            data.response.writeHead(500, {'content-type': 'text/plain'});
+            data.response.write('error' + e);
+            data.response.end();
         }
     }
-
 }, 1000);
 
 function requestProcess(){
@@ -133,9 +144,9 @@ function requestForward(data){
 
 function callback(data){
     //Events...which all systems or sub-systems need this information or already subscribed for..
-    if(data.call.name == 'actionAdd'){
-        //requestSubscription(data);
-        eventEmitter.emit('actionAdd', data.requestId, data.call, data.call.data);
+    if(data.call.name == 'action.actionAdd'){
+        eventEmitter.emit('actionAdd', data);
+        //eventEmitter.emit('actionAdd', data.requestId, data.call, data.call.data);
     }
     responseQueue[data.requestId] = data;
 }
@@ -174,32 +185,26 @@ function responseProcess(){
     }
 }
 
-function requestSubscription(data){
-    console.log('actionAdd: triggered actionAdded event.');
+function actionAdded(data){
+//function actionAdded(id, methodName, data){
+    console.log('actionAdd: triggered an event.');
     var collection = '';
-    data.call.name = "actionAddRecommendation";
+    data.call.name = "recommendation.actionAdd";
     var service = eval(data.call.name);
     if(service){
         service(mongoHandle, data, function(){
-            callback(data);
+            callback2(data);
         });
     }else{
         state.error('Unable to determine a call handler for "' + state.call.name + '".');
-        callback(data);
+        callback2(data);
     }
 }
 
-function actionAdded(id, methodName, data){
-    console.log('actionAdd: triggered an event.');
-    var collection = '';
-    data.call.name = "actionAddRecommendation";
-    var service = eval(methodName);
-    if(service){
-        service(mongoHandle, data, function(){
-            callback(data);
-        });
-    }else{
-        state.error('Unable to determine a call handler for "' + state.call.name + '".');
-        callback(data);
+function callback2(data){
+    //Events...which all systems or sub-systems need this information or already subscribed for..
+    if(data.call.name == 'action.actionAdd'){
+        eventEmitter.emit('actionAdd', data.requestId, data.call, data.call.data);
     }
+    responseQueue[data.requestId] = data;
 }

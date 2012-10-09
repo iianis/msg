@@ -23,37 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="server.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="5" selection-start="292" selection-end="292" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="event.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/event.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="11" selection-start="677" selection-end="677" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mongo.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongo.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="0" selection-start="697" selection-end="697" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="actionapi.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/actionapi.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="1" selection-start="2070" selection-end="2070" vertical-scroll-proportion="0.8557576">
+            <state line="173" column="5" selection-start="5159" selection-end="5159" vertical-scroll-proportion="0.40550458">
               <folding />
             </state>
           </provider>
@@ -69,22 +42,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/worker.js" />
-        <option value="$PROJECT_DIR$/server1.js" />
-        <option value="$PROJECT_DIR$/dbWorker.js" />
-        <option value="$PROJECT_DIR$/dbworker.js" />
         <option value="$PROJECT_DIR$/messageapi.js" />
-        <option value="$PROJECT_DIR$/style.css" />
-        <option value="$PROJECT_DIR$/actionapi.js" />
         <option value="$PROJECT_DIR$/markup.html" />
         <option value="$PROJECT_DIR$/mymongo.js" />
         <option value="$PROJECT_DIR$/messageevent.js" />
         <option value="$PROJECT_DIR$/myevent.js" />
         <option value="$PROJECT_DIR$/server2.js" />
-        <option value="$PROJECT_DIR$/server.js" />
-        <option value="$PROJECT_DIR$/main.js" />
-        <option value="$PROJECT_DIR$/event.js" />
         <option value="$PROJECT_DIR$/mongo.js" />
+        <option value="$PROJECT_DIR$/event.js" />
+        <option value="$PROJECT_DIR$/actionapi.js" />
+        <option value="$PROJECT_DIR$/geography.js" />
+        <option value="$PROJECT_DIR$/main.js" />
+        <option value="$PROJECT_DIR$/action.js" />
+        <option value="$PROJECT_DIR$/recommendation.js" />
+        <option value="$PROJECT_DIR$/style.css" />
+        <option value="$PROJECT_DIR$/browser/style.css" />
+        <option value="$PROJECT_DIR$/server.js" />
       </list>
     </option>
   </component>
@@ -153,15 +126,23 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="project.propVCSSupport.VCSs.Git" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="DefaultHtmlFileTemplate" value="Html" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\builld\js\bus" />
       <recent name="F:\builld\js\bus\node_modules" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\github\msg\bus\node" />
+      <recent name="D:\github\msg\bus\browser" />
     </key>
   </component>
   <component name="RunManager" selected="Node.js.Server">
@@ -236,16 +217,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1010" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17820206" sideWeight="0.7517647" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41438356" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17820206" sideWeight="0.67058825" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41411763" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2482353" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32941177" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6282353" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -310,15 +291,33 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/actionapi.js</url>
-          <line>67</line>
+          <url>file://$PROJECT_DIR$/node/action.js</url>
+          <line>23</line>
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1" />
+      <option name="time" value="8" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main.js">
+    <entry file="file://$PROJECT_DIR$/node/action.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="435" selection-end="435" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/recommendation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="0" selection-start="727" selection-end="727" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1349699424422" expanded="true" signature="505:726" placeholder="{...}" />
+            <marker date="1349699424422" expanded="true" signature="576:722" placeholder="{...}" />
+            <marker date="1349699424422" expanded="true" signature="639:714" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/browser/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="47" selection-start="605" selection-end="605" vertical-scroll-proportion="0.0" />
       </provider>
@@ -328,7 +327,7 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jquery.js">
+    <entry file="file://$PROJECT_DIR$/browser/jquery.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="33" column="0" selection-start="917" selection-end="917" vertical-scroll-proportion="0.0" />
       </provider>
@@ -343,47 +342,67 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/style.css">
+    <entry file="file://$PROJECT_DIR$/node/event.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="21" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0" />
+        <state line="9" column="0" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/markup.html">
+    <entry file="file://$PROJECT_DIR$/node/mongo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="31" selection-start="4611" selection-end="4611" vertical-scroll-proportion="0.0" />
+        <state line="31" column="0" selection-start="697" selection-end="697" vertical-scroll-proportion="0.63878787" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.js">
+    <entry file="file://$PROJECT_DIR$/browser/markup.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="20" selection-start="2157" selection-end="2157" vertical-scroll-proportion="0.35993487">
+        <state line="101" column="31" selection-start="4611" selection-end="4611" vertical-scroll-proportion="-16.346153">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/browser/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="27" selection-start="1958" selection-end="1958" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/geography.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="0" selection-end="445" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/action.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="435" selection-end="435" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node/recommendation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="0" selection-start="727" selection-end="727" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1349699424422" expanded="true" signature="505:726" placeholder="{...}" />
+            <marker date="1349699424422" expanded="true" signature="576:722" placeholder="{...}" />
+            <marker date="1349699424422" expanded="true" signature="639:714" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/browser/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="66" selection-end="66" vertical-scroll-proportion="0.041212123">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="5" selection-start="292" selection-end="292" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/event.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="11" selection-start="677" selection-end="677" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mongo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="697" selection-end="697" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/actionapi.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="1" selection-start="2070" selection-end="2070" vertical-scroll-proportion="0.8557576">
+        <state line="173" column="5" selection-start="5159" selection-end="5159" vertical-scroll-proportion="0.40550458">
           <folding />
         </state>
       </provider>

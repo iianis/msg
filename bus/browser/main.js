@@ -31,27 +31,37 @@ function requestHandler(requestId){
     $("#" + requestId + "Action").attr("class","waiting");
     $("#" + requestId + "Action").html("Waiting for response..");
 
-    callBackMethod = null;
+    //requestId = (requestId.indexOf('Recommendation') > 0 ? requestId.replace('Recommendation','') : requestId);
+
+    var callBackMethod = null;
     var callMethod = requestId + 'Select';
+    var callModule = '';
 
     switch(requestId){
         case 'performer':
             callBackMethod = performerCallback;
+            callModule = 'action';
             break;
         case 'facility':
             callBackMethod = facilityCallback;
+            callModule = 'geography';
             break;
         case 'actionClass':
             callBackMethod = actionClassCallback;
+            callModule = 'action';
             break;
         case 'action':
             callBackMethod = actionCallback;
+            callModule = 'action';
             break;
         case 'actionRecommendation':
             callBackMethod = actionRecommendationCallback;
+            callMethod = 'actionSelect';
+            callModule = 'recommendation';
             break;
         case 'actionAdd':
             callBackMethod = actionAddCallback;
+            callModule = 'action';
             callMethod = 'actionAdd';
             requestData = {
                 id: $("#actionId").val(),
@@ -65,7 +75,7 @@ function requestHandler(requestId){
     //uniqueRequestNumber = browserIP + '-' + requestNumber;
     var request = {
         'authorization': {'role': '000000000000000000000001'},
-        'call': {'id': requestNumber, 'name': callMethod, 'data': requestData, 'callBack': callBackMethod},
+        'call': {'id': requestNumber, 'name': callModule + '.' + callMethod, 'data': requestData, 'callBack': callBackMethod},
         'requestId': requestNumber,
         'status': 'requesting',
         'target': 'iiCall'

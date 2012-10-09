@@ -9,14 +9,19 @@
 var http = require("http");
 var path = require("path");
 var fs = require("fs");
-var mongoHandle = require("./mongo").connect();
-var actionAPI = require("./actionapi");
-var myEvents = require("./event");
+var mongoHandle = require("./node/mongo").connect();
+var action = require("./node/action");
+var recommendation = require("./node/recommendation");
+var geography = require("./node/geography");
 
-var test = eval('myEvents.init');
-test();
+var events = require("events");
+var eventEmitter = new events.EventEmitter();
+eventEmitter.on("actionAdd", actionAdded);
 
 var requestQueue = [];
+var responseQueue = [];
+var appTimer = 0;
+
 var contentTypes = {
     '.js' : 'text/javascript',
     '.css':'text/css',
@@ -40,7 +45,10 @@ console.log("Web server is ready to listen U @ http://localhost:1337\n");
 function get(request, response){
 
     var filePath = '.' + request.url;
-    if(filePath == './') filePath = "./markup.html";
+    if(filePath == './')
+        filePath = "./browser/markup.html";
+    else
+        filePath = filePath.replace('./', './browser/');
 
     var fileExtension = path.extname(filePath);
 
@@ -75,6 +83,7 @@ function post(request, response){
             requestQueue[jData.requestId] = jData;
             requestQueue[jData.requestId].request = request;
             requestQueue[jData.requestId].response = response;
+            requestQueue[jData.requestId].receivedAt = appTimer;
         }
         catch(ex){
             response.writeHead(500, {'content-type': 'text/plain' });
@@ -84,12 +93,23 @@ function post(request, response){
     }); //addListener
 }
 
-var interval = setInterval(function(){requestProcess();}, 2000);
+var reqInterval = setInterval(function(){requestProcess();}, 100);
+var resInterval = setInterval(function(){responseProcess();}, 100);
+var appInterval = setInterval(function(){
+    appTimer++;
+    for(var key in requestQueue){
+        if(requestQueue[key].status == "requested" && (appTimer - requestQueue[key].receivedAt) > 5){
+            console.log('Queue item#' + requestQueue[key].requestId + ' cleared as it timed-out.');
+            requestQueue.splice(key, 1);
+            responseQueue.splice(key, 1);
+            break;
+        }
+    }
+
+}, 1000);
 
 function requestProcess(){
-    var key = null;
-
-    for(key in requestQueue){
+    for(var key in requestQueue){
         if(requestQueue[key].status == "requesting"){
             requestQueue[key].status = "requested";
             console.log('request#' + requestQueue[key].requestId + '  forwarded.');
@@ -100,24 +120,7 @@ function requestProcess(){
 }
 
 function requestForward(data){
-    var collection = '';
-
-    var service = eval('actionAPI.' + data.call.name);
-    if(service){
-        service(mongoHandle, data, function(){
-            callback(data);
-        });
-    }else{
-        state.error('Unable to determine a call handler for "' + state.call.name + '".');
-        callback(data);
-    }
-}
-
-function requestSubscription(data){
-    console.log('actionAdd: triggered actionAdded event.');
-    var collection = '';
-    data.call.name = "actionAddRecommendation";
-    var service = eval('actionAPI.' + data.call.name);
+    var service = eval(data.call.name);
     if(service){
         service(mongoHandle, data, function(){
             callback(data);
@@ -129,30 +132,74 @@ function requestSubscription(data){
 }
 
 function callback(data){
+    //Events...which all systems or sub-systems need this information or already subscribed for..
+    if(data.call.name == 'actionAdd'){
+        //requestSubscription(data);
+        eventEmitter.emit('actionAdd', data.requestId, data.call, data.call.data);
+    }
+    responseQueue[data.requestId] = data;
+}
+
+function responseProcess(){
+
+    var data = null;
+
     try{
-        //Events...which all systems or sub-systems need this information or already subscribed for..
-        if(data.call.name == 'actionAdd'){
-            requestSubscription(data);
+        for(var key in responseQueue){
+            data = responseQueue[key];
+            if(data.status == "requested"){
+                console.log('response received for request#' + data.requestId + '.');
+                data.status = "received";
+                data.response.writeHead(200, {'content-type': 'text/json' });
+                data.response.end(JSON.stringify(data.targets));
+                break;
+            }
+            data = null;
         }
-        else{
-            console.log(data.targets);
-            data.status = "received";
-            data.response.writeHead(200, {'content-type': 'text/json' });
-            data.response.end(JSON.stringify(data.targets));
+    }catch(e){
+        if(data){
+            data.response.writeHead(500, {'content-type': 'text/plain' });
+            data.response.write('error' + e);
+            data.response.end();
         }
-    }
-    catch(ex){
-        console.log(ex);
-        data.response.writeHead(500, {'content-type': 'text/plain' });
-        data.response.write('error' + ex);
-        data.response.end();
-    }
-    finally{
-        for(key in requestQueue){
-            if(requestQueue[key].status == "requested" && requestQueue[key].requestId == data.requestId){
+    }finally{
+        for(var key in responseQueue){
+            if(responseQueue[key].status == "received"){
+                console.log('Queue item#' + responseQueue[key].requestId + ' cleared.');
                 requestQueue.splice(key, 1);
+                responseQueue.splice(key, 1);
                 break;
             }
         }
+    }
+}
+
+function requestSubscription(data){
+    console.log('actionAdd: triggered actionAdded event.');
+    var collection = '';
+    data.call.name = "actionAddRecommendation";
+    var service = eval(data.call.name);
+    if(service){
+        service(mongoHandle, data, function(){
+            callback(data);
+        });
+    }else{
+        state.error('Unable to determine a call handler for "' + state.call.name + '".');
+        callback(data);
+    }
+}
+
+function actionAdded(id, methodName, data){
+    console.log('actionAdd: triggered an event.');
+    var collection = '';
+    data.call.name = "actionAddRecommendation";
+    var service = eval(methodName);
+    if(service){
+        service(mongoHandle, data, function(){
+            callback(data);
+        });
+    }else{
+        state.error('Unable to determine a call handler for "' + state.call.name + '".');
+        callback(data);
     }
 }

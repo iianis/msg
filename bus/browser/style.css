@@ -1,11 +1,12 @@
 body{
-    font: verdana;
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
 }
 .main{
 
 }
 .leftpanel{
     border: solid black 1px;
+    font-size: 12px;
     float: left;
     height: 90%;
     width: 49%;
@@ -13,6 +14,7 @@ body{
 .rightpanel{
     border: solid black 1px;
     float: left;
+    font-size: 12px;
     height: 90%;
     margin: 0px 0px 0px 5px;
     overflow-y: auto;
@@ -40,13 +42,16 @@ body{
 .tableRowHeader{
     background-color: #516C80;
     color: white;
+    font-size: 12px;
 }
 .tableRowHeaderColumn{
     width: 120px;
 }
 .tableRowEven{
     background-color: #F4F4FF;
+    font-size: 12px;
 }
 .tableRowOdd{
     background-color: #ffffff;
+    font-size: 12px;
 }

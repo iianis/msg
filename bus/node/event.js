@@ -26,7 +26,6 @@ module.exports = myevents = {
     }
 }
 
-
 //Adapter, Events etc.
 //subscriptions to be considered as per events
 subscriptions = {
@@ -34,7 +33,9 @@ subscriptions = {
     name: 'actionAdd',
     subscriber: [
         {id:1, name:'dispatch'},
-        {id:2, name:'recommendation'}
+        {id:2, name:'recommendation'},
+        {id:3, name:'callCenter'},
+        {id:4, name:'contactCenter'}
     ]
 };
 
